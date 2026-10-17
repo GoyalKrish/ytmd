@@ -2,6 +2,8 @@
 // experiment from the shell without editing code, e.g.
 //   MUSIC_ON=0.4 PROBE_STEP_SEC=20 node src/index.js <url> --force
 
+import { existsSync } from 'node:fs';
+
 const env = process.env;
 const num = (value, fallback) =>
   value === undefined || value === '' ? fallback : Number(value);
@@ -22,7 +24,7 @@ export const config = {
     modelDir: env.YAMNET_DIR ?? null,
     // Optional: yamnet_class_map.csv. When set, the Music/Speech class indices are
     // looked up by name instead of using the built-in defaults.
-    classMapPath: env.YAMNET_CLASS_MAP ?? null,
+    classMapPath: env.YAMNET_CLASS_MAP ?? (existsSync('./data/yamnet_class_map.csv') ? './data/yamnet_class_map.csv' : null),
     // Frames scored per model call (120 frames ~= 58 s of audio).
     chunkFrames: 120,
   },

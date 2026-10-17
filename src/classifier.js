@@ -17,11 +17,9 @@ const HOP = 7680; // 0.48 s * 16000
 const WIN = 15600; // 0.975 s * 16000
 const NUM_CLASSES = 521;
 
-// Indices in YAMNet's yamnet_class_map.csv. These are from memory and were NOT
-// verified in the environment this was written in. Download the CSV from the
-// tensorflow/models repo (research/audioset/yamnet/yamnet_class_map.csv) and set
-// YAMNET_CLASS_MAP to have them looked up by name instead.
-export const DEFAULT_CLASSES = { Speech: 0, Music: 137 };
+// Indices in YAMNet's yamnet_class_map.csv: Speech is 0 (/m/09x0r) and Music is 132 (/m/04rlf).
+// (137 was Bass guitar).
+export const DEFAULT_CLASSES = { Speech: 0, Music: 132 };
 
 /** Read yamnet_class_map.csv ("index,mid,display_name") and find Music/Speech by name. */
 export async function readClassMap(file) {

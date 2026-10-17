@@ -41,7 +41,7 @@ if (values.help || positionals.length === 0) {
 
 if (values.recognizer) config.recognizer.provider = values.recognizer;
 
-const log = (msg) => console.error(`  ${msg}`);
+const log = (msg) => console.log(msg);
 const store = openStore(config.dbPath);
 
 try {
@@ -55,7 +55,10 @@ try {
     getRecognizer: async () => createRecognizer(config.recognizer),
   });
 
-  console.log(`\nVideo: ${result.videoId}${result.cached ? '  (served from cache)' : ''}\n`);
+  console.log(`\n================================================================================`);
+  console.log(`FINAL TIMELINE RESULT`);
+  console.log(`================================================================================`);
+  console.log(`Video: ${result.videoId}${result.cached ? '  (served from cache)' : ''}\n`);
   console.log(formatTimeline(result.segments));
   if (result.stats) console.log(`\n${formatStats(result.stats)}`);
 
