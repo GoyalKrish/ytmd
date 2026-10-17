@@ -1,0 +1,20 @@
+{
+  "name": "yt-song-detector",
+  "version": "0.1.0",
+  "description": "Spike: detect songs playing in a YouTube video (music detection -> probe sampling -> recognition -> timeline)",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "yt-songs": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs": "^2.1.0"
+  }
+}
