@@ -22,7 +22,7 @@ Cheap filters first, expensive work last. Each step is one file in `src/`.
 | 3 | Classify | `classifier.js` | YAMNet scores every 0.48 s frame for "Music" and "Speech" |
 | 4 | Segment | `segmenter.js` | Smooth + hysteresis -> music regions; non-music is discarded |
 | 5 | Sample | `sampler.js` | Pick short clips (probes) inside each music region |
-| 6 | Recognize | `recognizer.js` | Send each clip to AudD (swappable provider interface) |
+| 6 | Recognize | `recognizer.js` | Send each clip to ACRCloud or AudD (swappable provider interface) |
 | 7 | Merge | `merger.js` | Probe answers -> contiguous song segments |
 | 8 | Store | `db.js` | SQLite: `videos`, `tracks`, `segments` (results only, no fingerprints) |
 | - | Orchestrate | `pipeline.js`, `index.js` | Runs the steps, caches, CLI |
@@ -35,7 +35,13 @@ Requirements: Node >= 22.13, `ffmpeg`, `yt-dlp` (`pip install -U yt-dlp`).
 
 ```bash
 npm install
-export AUDD_API_TOKEN=your_token     # https://audd.io - check their current free tier
+# Set ACRCloud credentials (default provider):
+export ACR_HOST=your_host             # e.g. identify-ap-southeast-1.acrcloud.com
+export ACR_ACCESS_KEY=your_access_key
+export ACR_ACCESS_SECRET=your_access_secret
+
+# Or use AudD:
+# export AUDD_API_TOKEN=your_token    # https://audd.io
 ```
 
 ## Run
@@ -51,7 +57,7 @@ node src/index.js <url> --json out.json          # full result incl. regions and
 |------|---------|
 | `--force` | Ignore the DB cache; reuse cached frame scores and probe answers |
 | `--fresh` | Recompute everything (drops frame + probe caches too) |
-| `--recognizer audd\|mock` | Provider |
+| `--recognizer acrcloud|audd|mock` | Provider (default: acrcloud) |
 
 ## Caching (so experiments are cheap)
 
@@ -81,7 +87,7 @@ Tuning loop: change a threshold, run with `--force`. Segmentation re-runs instan
 npm test
 ```
 
-Covers audio I/O, URL parsing, segmentation, probe planning, merging, the DB, the AudD client (against a local fake server), the classifier's chunking, and the whole pipeline (synthetic audio, fake classifier, mock recognizer).
+Covers audio I/O, URL parsing, segmentation, probe planning, merging, the DB, the AudD and ACRCloud clients (against local fake servers), the classifier's chunking, and the whole pipeline (synthetic audio, fake classifier, mock recognizer).
 
 ## Verify these first (not checked when this was written)
 

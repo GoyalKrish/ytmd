@@ -13,14 +13,15 @@ import { formatTimeline, formatStats } from './report.js';
 const USAGE = `Usage: node src/index.js <youtube-url | video-id | local-file> [options]
 
 Options:
-  --recognizer <audd|mock>  recognition provider (default: audd, needs AUDD_API_TOKEN)
+  --recognizer <acrcloud|audd|mock>  recognition provider (default: acrcloud)
   --force                   ignore the DB cache; reuse cached frame scores + probe answers
   --fresh                   recompute everything (also drops frame + probe caches)
   --json <file>             write the full result as JSON
   -h, --help                show this help
 
-Env: AUDD_API_TOKEN, CACHE_DIR, DB_PATH, MUSIC_ON, MUSIC_OFF, PROBE_STEP_SEC, CLIP_SEC,
-     YAMNET_URL, YAMNET_DIR, YAMNET_CLASS_MAP  (see src/config.js)
+Env: ACR_HOST, ACR_ACCESS_KEY, ACR_ACCESS_SECRET, AUDD_API_TOKEN, CACHE_DIR, DB_PATH,
+     MUSIC_ON, MUSIC_OFF, PROBE_STEP_SEC, CLIP_SEC, YAMNET_URL, YAMNET_DIR,
+     YAMNET_CLASS_MAP  (see src/config.js)
 `;
 
 const { values, positionals } = parseArgs({

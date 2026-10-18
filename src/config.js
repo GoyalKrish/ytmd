@@ -4,6 +4,10 @@
 
 import { existsSync } from 'node:fs';
 
+try {
+  process.loadEnvFile?.();
+} catch {}
+
 const env = process.env;
 const num = (value, fallback) =>
   value === undefined || value === '' ? fallback : Number(value);
@@ -46,9 +50,14 @@ export const config = {
   },
 
   recognizer: {
-    provider: env.RECOGNIZER ?? 'audd', // 'audd' | 'mock'
+    provider: env.RECOGNIZER ?? 'acrcloud', // 'acrcloud' | 'audd' | 'mock'
     auddToken: env.AUDD_API_TOKEN ?? '',
-    minIntervalMs: num(env.API_MIN_INTERVAL_MS, 1000),
+    acrcloud: {
+      host: env.ACR_HOST,
+      accessKey: env.ACR_ACCESS_KEY,
+      accessSecret: env.ACR_ACCESS_SECRET,
+    },
+    minIntervalMs: num(env.API_MIN_INTERVAL_MS, 500),
     maxRetries: 2,
   },
 
